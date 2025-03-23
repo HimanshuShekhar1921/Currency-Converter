@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Prishu Currency Converter</title>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+		<style>
+			/* CSS Styling */
+			:root {
+				--primary-color: #007bff;
+				--secondary-color: #6c757d;
+				--background-color: #e0e5ec;
+				--text-color: #333;
+				--border-radius: 15px;
+				--box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff;
+				--inset-shadow: inset 8px 8px 15px #a3b1c6, inset -8px -8px 15px #ffffff;
+				--red: #ff4d4d;
+				--green: #28a745;
+				--blue: #007bff;
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: 'Poppins', sans-serif;
+				background-color: var(--background-color);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-height: 100vh;
+				padding: 1rem;
+			}
+
+			.container {
+				width: 100%;
+				max-width: 800px;
+			}
+
+			.card {
+				background-color: var(--background-color);
+				padding: 2rem;
+				border-radius: var(--border-radius);
+				box-shadow: var(--box-shadow);
+				margin-bottom: 2rem;
+			}
+
+			.topic {
+				color: var(--red);
+				font-size: 2rem;
+				margin-bottom: 1.5rem;
+				text-align: center;
+			}
+
+			.subtopic {
+				color: var(--green);
+				font-size: 1.25rem;
+				margin-top: 1rem;
+				margin-bottom: 0.5rem;
+			}
+
+			.description {
+				color: var(--blue);
+				font-size: 1rem;
+				line-height: 1.5;
+			}
+
+			.input-group {
+				margin-bottom: 1.5rem;
+				text-align: left;
+			}
+
+			label {
+				display: block;
+				font-size: 0.9rem;
+				font-weight: 500;
+				color: var(--text-color);
+				margin-bottom: 0.5rem;
+			}
+
+			input,
+			select {
+				width: 100%;
+				padding: 0.75rem;
+				border: none;
+				border-radius: var(--border-radius);
+				font-size: 1rem;
+				outline: none;
+				background-color: var(--background-color);
+				box-shadow: var(--inset-shadow);
+				transition: all 0.3s ease;
+			}
+
+			input:focus,
+			select:focus {
+				box-shadow: var(--inset-shadow), 0 0 0 2px var(--primary-color);
+			}
+
+			.swap-btn-container {
+				display: flex;
+				justify-content: center;
+				margin: 1rem 0;
+			}
+
+			.btn-icon {
+				background-color: var(--background-color);
+				border: none;
+				border-radius: 50%;
+				width: 40px;
+				height: 40px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				box-shadow: var(--box-shadow);
+				cursor: pointer;
+				transition: all 0.3s ease;
+			}
+
+			.btn-icon:hover {
+				box-shadow: var(--inset-shadow);
+			}
+
+			.button-group {
+				display: flex;
+				gap: 1rem;
+				margin-top: 1.5rem;
+			}
+
+			.btn {
+				flex: 1;
+				padding: 0.75rem;
+				border: none;
+				border-radius: var(--border-radius);
+				font-size: 1rem;
+				font-weight: 500;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				box-shadow: var(--box-shadow);
+			}
+
+			.btn.primary {
+				background-color: var(--primary-color);
+				color: white;
+			}
+
+			.btn.secondary {
+				background-color: var(--secondary-color);
+				color: white;
+			}
+
+			.btn:hover {
+				transform: translateY(-2px);
+				box-shadow: var(--box-shadow), 0 4px 8px rgba(0, 0, 0, 0.2);
+			}
+
+			.result {
+				margin-top: 1.5rem;
+			}
+
+			#result-text {
+				font-size: 1.25rem;
+				color: var(--text-color);
+			}
+
+			.faq {
+				margin-bottom: 1.5rem;
+			}
+
+			/* Responsive Design */
+			@media (max-width: 600px) {
+				.topic {
+					font-size: 1.75rem;
+				}
+
+				.subtopic {
+					font-size: 1.1rem;
+				}
+
+				.description {
+					font-size: 0.9rem;
+				}
+
+				.card {
+					padding: 1.5rem;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<!-- Currency Converter -->
+			<div class="card">
+				<h1 class="topic">Prishu Currency Converter</h1>
+				<div class="input-group">
+					<label for="amount">Amount</label>
+					<input type="number" id="amount" placeholder="Enter amount" min="0">
+				</div>
+				<div class="input-group">
+					<label for="from">From</label>
+					<select id="from">
+						<!-- Options will be populated by JavaScript -->
+					</select>
+				</div>
+				<div class="swap-btn-container">
+					<button id="swap-btn" class="btn-icon">
+						<span>⇅</span>
+					</button>
+				</div>
+				<div class="input-group">
+					<label for="to">To</label>
+					<select id="to">
+						<!-- Options will be populated by JavaScript -->
+					</select>
+				</div>
+				<div class="button-group">
+					<button id="convert-btn" class="btn primary">Convert</button>
+					<button id="reset-btn" class="btn secondary">Reset</button>
+				</div>
+				<div class="result">
+					<h2 id="result-text">Result: </h2>
+				</div>
+			</div>
+
+			<!-- Content Sections -->
+			<div class="card">
+				<h1 class="topic">Why We Chose It</h1>
+				<div class="subtopic">Simple and Intuitive</div>
+				<p class="description">Our Currency Converter is designed to be user-friendly, making it easy for anyone to convert currencies quickly and accurately.</p>
+				<div class="subtopic">Real-Time Data</div>
+				<p class="description">We use reliable APIs to fetch the latest exchange rates, ensuring you always get up-to-date conversions.</p>
+				<div class="subtopic">Cross-Platform Compatibility</div>
+				<p class="description">The tool works seamlessly on all devices, including desktops, tablets, and mobile phones.</p>
+			</div>
+
+			<div class="card">
+				<h1 class="topic">How It Works</h1>
+				<div class="subtopic">Fetching Exchange Rates</div>
+				<p class="description">The tool connects to a trusted currency API to retrieve real-time exchange rates for accurate conversions.</p>
+				<div class="subtopic">Conversion Algorithm</div>
+				<p class="description">Using the fetched rates, the tool calculates the converted amount based on the user's input.</p>
+				<div class="subtopic">Displaying Results</div>
+				<p class="description">The converted amount is displayed instantly, along with the selected currencies for clarity.</p>
+			</div>
+
+			<div class="card">
+				<h1 class="topic">How to Use</h1>
+				<div class="subtopic">Enter Amount</div>
+				<p class="description">Input the amount you want to convert in the provided field.</p>
+				<div class="subtopic">Select Currencies</div>
+				<p class="description">Choose the "From" and "To" currencies from the dropdown menus.</p>
+				<div class="subtopic">Click Convert</div>
+				<p class="description">Press the "Convert" button to see the result instantly.</p>
+				<div class="subtopic">Swap Currencies</div>
+				<p class="description">Use the swap button to quickly switch between the "From" and "To" currencies.</p>
+			</div>
+
+			<div class="card">
+				<h1 class="topic">Benefits of Using the Tool</h1>
+				<div class="subtopic">Time-Saving</div>
+				<p class="description">Get instant currency conversions without the need for manual calculations.</p>
+				<div class="subtopic">Accuracy</div>
+				<p class="description">Real-time exchange rates ensure precise and reliable results.</p>
+				<div class="subtopic">Convenience</div>
+				<p class="description">Access the tool anytime, anywhere, on any device.</p>
+			</div>
+
+			<div class="card">
+				<h1 class="topic">Supported Currencies</h1>
+				<div class="subtopic">Major Currencies</div>
+				<p class="description">Supports popular currencies like USD, EUR, GBP, JPY, and more.</p>
+				<div class="subtopic">Exotic Currencies</div>
+				<p class="description">Includes less common currencies for specialized needs.</p>
+				<div class="subtopic">Regular Updates</div>
+				<p class="description">New currencies are added regularly to keep the tool comprehensive.</p>
+			</div>
+
+			<div class="card">
+				<h1 class="topic">FAQs</h1>
+				<div class="faq">
+					<div class="subtopic">Is the tool free to use?</div>
+					<p class="description">Yes, our Currency Converter is completely free to use.</p>
+				</div>
+				<div class="faq">
+					<div class="subtopic">How accurate are the exchange rates?</div>
+					<p class="description">The rates are fetched from reliable APIs and are updated in real-time for maximum accuracy.</p>
+				</div>
+				<div class="faq">
+					<div class="subtopic">Can I use it on mobile?</div>
+					<p class="description">Yes, the tool is fully responsive and works seamlessly on all devices.</p>
+				</div>
+				<div class="faq">
+					<div class="subtopic">How often are the rates updated?</div>
+					<p class="description">Exchange rates are updated in real-time to ensure accuracy.</p>
+				</div>
+				<div class="faq">
+					<div class="subtopic">Can I save my conversions?</div>
+					<p class="description">Currently, the tool does not support saving conversions, but this feature is in development.</p>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// JavaScript Functionality
+			document.addEventListener('DOMContentLoaded', () => {
+				const amountInput = document.getElementById('amount');
+				const fromCurrency = document.getElementById('from');
+				const toCurrency = document.getElementById('to');
+				const convertBtn = document.getElementById('convert-btn');
+				const resetBtn = document.getElementById('reset-btn');
+				const swapBtn = document.getElementById('swap-btn');
+				const resultText = document.getElementById('result-text');
+
+				let currencies = [];
+
+				// Fetch currencies from API
+				const fetchCurrencies = async () => {
+					try {
+						const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+						const data = await response.json();
+						currencies = Object.keys(data.rates);
+						populateDropdowns();
+					} catch (error) {
+						console.error('Error fetching currencies:', error);
+					}
+				};
+
+				// Populate dropdowns with currencies
+				const populateDropdowns = () => {
+					currencies.forEach(currency => {
+						const option1 = document.createElement('option');
+						const option2 = document.createElement('option');
+						option1.value = currency;
+						option1.textContent = currency;
+						option2.value = currency;
+						option2.textContent = currency;
+						fromCurrency.appendChild(option1);
+						toCurrency.appendChild(option2);
+					});
+				};
+
+				// Convert currency
+				const convertCurrency = async () => {
+					const amount = amountInput.value;
+					const from = fromCurrency.value;
+					const to = toCurrency.value;
+
+					if (!amount || isNaN(amount)) {
+						alert('Please enter a valid amount');
+						return;
+					}
+
+					try {
+						const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${from}`);
+						const data = await response.json();
+						const rate = data.rates[to];
+						const result = (amount * rate).toFixed(2);
+						resultText.textContent = `Result: ${amount} ${from} = ${result} ${to}`;
+					} catch (error) {
+						console.error('Error converting currency:', error);
+					}
+				};
+
+				// Swap currencies
+				const swapCurrencies = () => {
+					const temp = fromCurrency.value;
+					fromCurrency.value = toCurrency.value;
+					toCurrency.value = temp;
+				};
+
+				// Reset form
+				const resetForm = () => {
+					amountInput.value = '';
+					fromCurrency.value = 'USD';
+					toCurrency.value = 'USD';
+					resultText.textContent = 'Result: ';
+				};
+
+				// Event listeners
+				convertBtn.addEventListener('click', convertCurrency);
+				swapBtn.addEventListener('click', swapCurrencies);
+				resetBtn.addEventListener('click', resetForm);
+
+				// Initialize
+				fetchCurrencies();
+			});
+		</script>
+	</body>
+
+</html>
